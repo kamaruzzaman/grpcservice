@@ -1,0 +1,33 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package org.mkzaman.grpcservice;
+
+import "google/protobuf/timestamp.proto";
+
+message Person {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message PaymentRequest {
+  Person sender = 1;
+  Person receiver = 2;
+  string purpose = 3;
+  double amount = 4;
+}
+
+enum PaymentStatus {
+  SUCCESS = 0;
+  FAILURE = 1;
+}
+
+message PaymentResponse {
+  PaymentStatus paymentStatus = 1;
+  string paymentId = 2;
+  google.protobuf.Timestamp paymentTime = 3;
+}
+
+service PaymentService {
+  rpc sendPayment(PaymentRequest) returns (PaymentResponse);
+}
